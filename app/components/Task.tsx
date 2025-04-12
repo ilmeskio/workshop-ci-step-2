@@ -20,6 +20,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
   const [openModalComplete, setOpenModalComplete] = useState<boolean>(false);
   const [openModalUncomplete, setOpenModalUncomplete] = useState<boolean>(false);
   const [taskToEdit, setTaskToEdit] = useState<string>(task.text ?? '');
+  const [priorityToEdit, setPriorityToEdit] = useState<number>(task.priority ?? 2);
 
   const showPriority = searchParams.get('show_priority') === '1';
 
@@ -28,6 +29,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     await editTodo({
       id: task.id,
       text: taskToEdit,
+      priority: priorityToEdit
     });
     setOpenModalEdit(false);
     router.refresh();
@@ -51,7 +53,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     router.refresh();
   };
 
-  const priorityToString = (task: ITask): string|null => {
+  const priorityToString = (task: ITask): string | null => {
     switch (task.priority) {
       case 1: return 'low';
       case 2: return 'medium';
@@ -64,7 +66,7 @@ const Task: React.FC<TaskProps> = ({ task }) => {
     <tr key={task.id}>
       <td className={task.done ? 'line-through text-green-200 font-bold w-full' : 'w-full'} data-testid="todo-name-label">
         {task.text}
-        {showPriority && ' | ' + priorityToString(task) }
+        {showPriority && ' | ' + priorityToString(task)}
       </td>
       {!task.done && <td className='flex gap-5'>
         <FiCircle
@@ -91,13 +93,15 @@ const Task: React.FC<TaskProps> = ({ task }) => {
           size={25}
           data-testid="edit-todo"
         />
-        <UpsertTaskModal 
-          modalOpen={openModalEdit} 
+        <UpsertTaskModal
+          modalOpen={openModalEdit}
           setModalOpen={setOpenModalEdit}
           handleSubmit={handleSubmitEditTodo}
           value={taskToEdit}
           setValue={setTaskToEdit}
           variant='edit'
+          priority={priorityToEdit}
+          setPriority={setPriorityToEdit}
         />
         <FiTrash2
           onClick={() => setOpenModalDeleted(true)}

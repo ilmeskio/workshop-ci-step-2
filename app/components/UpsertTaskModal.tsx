@@ -15,9 +15,9 @@ interface ModalProps {
   variant?: 'add' | 'edit';
 }
 
-const UpsertTaskModal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, value, setValue, handleSubmit, variant = 'add', setPriority = () => {} }) => {
+const UpsertTaskModal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, value, setValue, handleSubmit, variant = 'add', setPriority = () => { }, priority = 2 }) => {
   const searchParams = useSearchParams();
-  const showPriority = searchParams.get('show_priority') === '1' && variant === 'add';
+  const showPriority = searchParams.get('show_priority') === '1';
 
   return (
     <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
@@ -34,7 +34,9 @@ const UpsertTaskModal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, value,
           />
           {showPriority &&
             <select
-              onChange={(e) => setPriority(parseInt(e.target.value))}>
+              onChange={(e) => setPriority(parseInt(e.target.value))}
+              value={priority}
+            >
               <option value="1">
                 Low
               </option>
