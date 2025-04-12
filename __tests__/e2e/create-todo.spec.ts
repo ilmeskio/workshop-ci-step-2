@@ -8,6 +8,8 @@ test('create + edit + delete todo', async ({ page }) => {
   await page.getByTestId('todo-text-add').fill('TODO TEST 1');
   await page.getByTestId('save-add-todo').click();
   await expect(page.getByTestId('todo-name-label')).toBeVisible();
+  // check priority not visible
+  await expect(page.getByTestId('todo-name-label')).toContainText('TODO TEST 1');
   // edit
   await page.getByTestId('edit-todo').first().click();
   await expect(page.getByTestId('todo-text-edit')).toBeVisible();
