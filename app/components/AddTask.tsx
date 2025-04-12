@@ -11,12 +11,15 @@ const AddTask = () => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [newTaskValue, setNewTaskValue] = useState<string>("");
+  const [newTaskPriority, setNewTaskPriority] = useState<number>(2);
+
 
   const handleSubmitNewTodo: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     await addTodo({
       id: uuidv4(),
       text: newTaskValue,
+      priority: newTaskPriority
     });
     setNewTaskValue("");
     setModalOpen(false);
@@ -39,6 +42,8 @@ const AddTask = () => {
         handleSubmit={handleSubmitNewTodo}
         value={newTaskValue}
         setValue={setNewTaskValue}
+        priority={newTaskPriority}
+        setPriority={setNewTaskPriority}
       />
     </div>
   );

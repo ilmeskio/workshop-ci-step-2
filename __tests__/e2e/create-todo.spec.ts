@@ -33,3 +33,15 @@ test('create + edit + delete todo', async ({ page }) => {
   await expect(page.getByTestId('todo-name-label')).toHaveCount(0);
 });
 
+test('create w/ show priority', async ({ page }) => {
+  // create
+  await page.goto('http://localhost:3000/?show_priority=1');
+  await page.getByTestId('add-todo').click();
+  await expect(page.getByTestId('todo-text-add')).toBeVisible();
+  await page.getByTestId('todo-text-add').fill('TODO TEST 1');
+  await page.getByTestId('save-add-todo').click();
+  await expect(page.getByTestId('todo-name-label')).toBeVisible();
+  // check priority visible
+  await expect(page.getByTestId('todo-name-label')).toContainText('TODO TEST 1 | medium');
+});
+
