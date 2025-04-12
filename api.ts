@@ -11,6 +11,7 @@ export const getAllTodos = async (): Promise<ITask[]> => {
 
 export const addTodo = async (todo: ITask): Promise<ITask> => {
   todo.done = todo.done ?? false;
+  todo.priority = todo.priority ?? 2;
 
   const res = await fetch(`${baseUrl}/tasks`, {
     method: 'POST',
@@ -23,7 +24,7 @@ export const addTodo = async (todo: ITask): Promise<ITask> => {
   return newTodo;
 }
 
-export const editTodo = async (todo: Pick<ITask, 'id' | 'text'>): Promise<ITask> => {
+export const editTodo = async (todo: Pick<ITask, 'id' | 'text' | 'priority'>): Promise<ITask> => {
   const res = await fetch(`${baseUrl}/tasks/${todo.id}`, {
     method: 'PATCH',
     headers: {
